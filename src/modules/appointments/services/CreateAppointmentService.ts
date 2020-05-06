@@ -1,4 +1,5 @@
 import { startOfHour } from 'date-fns';
+import { injectable, inject } from 'tsyringe';
 
 import AppError from '@shared/errors/AppError';
 
@@ -18,8 +19,12 @@ interface IRequest {
 // I - Interface Segregation Principle
 // # D - Dependency Inversion Principle
 
+@injectable()
 class CreateAppointmentService {
-  constructor(private appointmentsRepository: IAppointmentsRepository) {}
+  constructor(
+    @inject('AppointmentsRepository')
+    private appointmentsRepository: IAppointmentsRepository,
+  ) {}
 
   // sempre que tiver uma funcao async o retorno sera uma Promise
   public async execute({ date, provider_id }: IRequest): Promise<Appointment> {
