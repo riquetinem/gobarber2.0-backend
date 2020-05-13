@@ -6,14 +6,14 @@ import UpdateProfileService from './UpdateProfileService';
 
 let fakeUsersRepository: FakeUsersRepository;
 let fakeHashProvider: FakeHashProvider;
-let updateProfileService: UpdateProfileService;
+let updateProfile: UpdateProfileService;
 
 describe('UpdateProfile', () => {
   beforeEach(() => {
     fakeUsersRepository = new FakeUsersRepository();
     fakeHashProvider = new FakeHashProvider();
 
-    updateProfileService = new UpdateProfileService(
+    updateProfile = new UpdateProfileService(
       fakeUsersRepository,
       fakeHashProvider,
     );
@@ -26,7 +26,7 @@ describe('UpdateProfile', () => {
       password: '123456',
     });
 
-    const updatedUser = await updateProfileService.execute({
+    const updatedUser = await updateProfile.execute({
       user_id: user.id,
       name: 'Jhon Trê',
       email: 'jhontre@example.com',
@@ -34,6 +34,16 @@ describe('UpdateProfile', () => {
 
     expect(updatedUser.name).toBe('Jhon Trê');
     expect(updatedUser.email).toBe('jhontre@example.com');
+  });
+
+  it('should be able to update the profile from non-existing user', async () => {
+    await expect(
+      updateProfile.execute({
+        user_id: 'non-existing-user-id',
+        name: 'test',
+        email: 'teste@example.com',
+      }),
+    ).rejects.toBeInstanceOf(AppError);
   });
 
   it('should not be able to change to another user email', async () => {
@@ -50,7 +60,7 @@ describe('UpdateProfile', () => {
     });
 
     await expect(
-      updateProfileService.execute({
+      updateProfile.execute({
         user_id: user.id,
         name: 'Jhon Trê',
         email: 'jhondoe@example.com',
@@ -65,7 +75,7 @@ describe('UpdateProfile', () => {
       password: '123456',
     });
 
-    const updatedUser = await updateProfileService.execute({
+    const updatedUser = await updateProfile.execute({
       user_id: user.id,
       name: 'Jhon Trê',
       email: 'jhontre@example.com',
@@ -84,7 +94,7 @@ describe('UpdateProfile', () => {
     });
 
     await expect(
-      updateProfileService.execute({
+      updateProfile.execute({
         user_id: user.id,
         name: 'Jhon Trê',
         email: 'jhontre@example.com',
@@ -101,7 +111,7 @@ describe('UpdateProfile', () => {
     });
 
     await expect(
-      updateProfileService.execute({
+      updateProfile.execute({
         user_id: user.id,
         name: 'Jhon Trê',
         email: 'jhontre@example.com',
