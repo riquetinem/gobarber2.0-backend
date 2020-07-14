@@ -4,11 +4,11 @@
     "type": "postgres",
     "host": "localhost",
     "port": 5432,
-    "username": "postgres",
-    "password": 123456,
+    "username": "docker",
+    "password": "123456",
     "database": "gostack_gobarber",
     "entities": [
-      "./src/modules/**/infra/typeorm/entites/*.ts"
+      "./src/modules/**/infra/typeorm/entities/*.ts"
     ],
     "migrations": [
       "./src/shared/infra/typeorm/migrations/*.ts"
@@ -17,7 +17,6 @@
       "migrationsDir": "./src/shared/infra/typeorm/migrations"
     }
   },
-
   {
     "name": "mongo",
     "type": "mongodb",
